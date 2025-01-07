@@ -1,6 +1,5 @@
 package dk.kea.stories;
 
-import dk.kea.stories.model.Story;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
