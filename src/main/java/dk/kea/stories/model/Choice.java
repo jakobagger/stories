@@ -15,11 +15,13 @@ public class Choice extends DateTimeInfo{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private String text;
+
     @OneToOne
-    @JoinColumn(name = "to_node")
+    @JoinColumn(name = "to_node_id", nullable = false, unique = true)
     private Node toNode;
 
     @ManyToOne
-    @JoinColumn(name = "from_node")
+    @JoinColumn(name = "from_node_id", nullable = false)
     private Node fromNode;
 }

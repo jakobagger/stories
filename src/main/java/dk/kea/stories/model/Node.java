@@ -19,22 +19,22 @@ public class Node extends DateTimeInfo{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String description;
+    private String text;
 
     @ManyToOne
     @JoinColumn(name = "story_id")
     private Story story;
 
-    @OneToMany(mappedBy = "fromNode", cascade = CascadeType.ALL)
-    private List<Choice> choices;
+    @OneToMany(mappedBy = "fromNode", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Choice> outgoingChoices;
 
-    @OneToOne(mappedBy = "toNode")
-    private Node toNode;
+    @OneToOne(mappedBy = "toNode", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Choice incomingChoice;
 
-    public void addChoice(Choice choice){
-        if (choices == null){
-            choices = new ArrayList<>();
+    public void addOutgoingChoice(Choice choice){
+        if (outgoingChoices == null){
+            outgoingChoices = new ArrayList<>();
         }
-        choices.add(choice);
+        outgoingChoices.add(choice);
     }
 }
