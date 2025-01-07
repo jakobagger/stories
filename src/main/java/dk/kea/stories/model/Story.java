@@ -25,7 +25,7 @@ public class Story extends DateTimeInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
-    private String content;
+    private String description;
 
     @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
     @JsonManagedReference("story-nodes")

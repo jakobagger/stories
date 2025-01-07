@@ -29,7 +29,7 @@ public class Node extends DateTimeInfo{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
+    private String title;
     private String text;
 
     @ManyToOne

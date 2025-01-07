@@ -1,11 +1,9 @@
 package dk.kea.stories.api;
 
+import dk.kea.stories.dto.StoryResponse;
 import dk.kea.stories.model.Story;
 import dk.kea.stories.service.StoryService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +21,10 @@ public class StoryController {
     @GetMapping()
     public List<Story> getStories() {
         return storyService.getStories();
+    }
+
+    @GetMapping("/{id}")
+    public StoryResponse getStoryById(@PathVariable int id){
+        return storyService.getStoryById(id);
     }
 }
