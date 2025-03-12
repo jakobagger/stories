@@ -1,6 +1,7 @@
 package dk.kea.stories.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import dk.kea.stories.dto.StoryRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,5 +37,10 @@ public class Story extends DateTimeInfo {
             nodes = new ArrayList<>();
         }
         nodes.add(node);
+    }
+
+    public Story(StoryRequest body) {
+        this.title = body.getTitle();
+        this.description = body.getDescription();
     }
 }

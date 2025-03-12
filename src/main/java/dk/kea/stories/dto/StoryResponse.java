@@ -11,7 +11,7 @@ public record StoryResponse(
         String content,
         List<NodeResponse> nodes
 ) {
-    // Static factory method to convert from entity
+
     public static StoryResponse from(Story story) {
         return new StoryResponse(
                 story.getId(),

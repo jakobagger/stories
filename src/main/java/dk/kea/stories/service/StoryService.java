@@ -1,5 +1,6 @@
 package dk.kea.stories.service;
 
+import dk.kea.stories.dto.StoryRequest;
 import dk.kea.stories.dto.StoryResponse;
 import dk.kea.stories.model.Story;
 import dk.kea.stories.repository.StoryRepository;
@@ -24,5 +25,11 @@ public class StoryService {
         Story story = storyRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Story not found"));
         return StoryResponse.from(story);
+    }
+
+    public StoryResponse addStory(StoryRequest body) {
+        Story newStory = new Story(body);
+        storyRepository.save(newStory);
+        return StoryResponse.from(newStory);
     }
 }

@@ -1,5 +1,6 @@
 package dk.kea.stories.api;
 
+import dk.kea.stories.dto.StoryRequest;
 import dk.kea.stories.dto.StoryResponse;
 import dk.kea.stories.model.Story;
 import dk.kea.stories.service.StoryService;
@@ -27,4 +28,10 @@ public class StoryController {
     public StoryResponse getStoryById(@PathVariable int id){
         return storyService.getStoryById(id);
     }
+
+    @PostMapping
+    public StoryResponse addStory (@RequestBody StoryRequest body){
+        return storyService.addStory(body);
+    }
 }
+
