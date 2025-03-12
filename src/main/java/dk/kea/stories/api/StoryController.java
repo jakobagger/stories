@@ -13,7 +13,7 @@ import java.util.List;
 @CrossOrigin
 public class StoryController {
 
-    private StoryService storyService;
+    private final StoryService storyService;
 
     public StoryController(StoryService storyService) {
         this.storyService = storyService;

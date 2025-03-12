@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public class StoryService {
-    private StoryRepository storyRepository;
+    private final StoryRepository storyRepository;
     public StoryService(StoryRepository storyRepository){
         this.storyRepository = storyRepository;
     }
