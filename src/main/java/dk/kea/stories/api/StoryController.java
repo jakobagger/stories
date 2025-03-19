@@ -1,8 +1,10 @@
 package dk.kea.stories.api;
 
+import dk.kea.stories.dto.StoryRequest;
 import dk.kea.stories.dto.StoryResponse;
 import dk.kea.stories.model.Story;
 import dk.kea.stories.service.StoryService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
 @CrossOrigin
 public class StoryController {
 
-    private StoryService storyService;
+    private final StoryService storyService;
 
     public StoryController(StoryService storyService) {
         this.storyService = storyService;
@@ -27,4 +29,20 @@ public class StoryController {
     public StoryResponse getStoryById(@PathVariable int id){
         return storyService.getStoryById(id);
     }
+
+    @PostMapping
+    public StoryResponse addStory (@RequestBody StoryRequest body){
+        return storyService.addStory(body);
+    }
+
+    @PutMapping("/{id}")
+    public StoryResponse updateStory (@RequestBody StoryRequest body, @PathVariable int id){
+        return storyService.editStory(body, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteStory(@PathVariable int id){
+        return storyService.deleteById(id);
+    }
 }
+
