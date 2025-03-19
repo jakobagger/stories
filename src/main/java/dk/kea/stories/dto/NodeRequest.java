@@ -7,7 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StoryRequest {
+public class NodeRequest {
+    private int storyId;
     private String title;
-    private String description;
+    private String text;
 }

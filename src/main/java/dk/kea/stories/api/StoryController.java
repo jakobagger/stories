@@ -4,6 +4,7 @@ import dk.kea.stories.dto.StoryRequest;
 import dk.kea.stories.dto.StoryResponse;
 import dk.kea.stories.model.Story;
 import dk.kea.stories.service.StoryService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,16 @@ public class StoryController {
     @PostMapping
     public StoryResponse addStory (@RequestBody StoryRequest body){
         return storyService.addStory(body);
+    }
+
+    @PutMapping("/{id}")
+    public StoryResponse updateStory (@RequestBody StoryRequest body, @PathVariable int id){
+        return storyService.editStory(body, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteStory(@PathVariable int id){
+        return storyService.deleteById(id);
     }
 }
 

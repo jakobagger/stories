@@ -3,6 +3,7 @@ package dk.kea.stories.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import dk.kea.stories.dto.NodeRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -50,5 +51,14 @@ public class Node extends DateTimeInfo{
             outgoingChoices = new ArrayList<>();
         }
         outgoingChoices.add(choice);
+    }
+
+    public static Node from(NodeRequest nodeRequest, Story story){
+        Node newNode = new Node();
+
+        newNode.title = nodeRequest.getTitle();
+        newNode.text = nodeRequest.getText();
+        newNode.story = story;
+        return newNode;
     }
 }
