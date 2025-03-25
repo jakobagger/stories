@@ -21,7 +21,7 @@ public class StoryController {
     }
 
     @GetMapping()
-    public List<Story> getStories() {
+    public List<StoryResponse> getStories() {
         return storyService.getStories();
     }
 

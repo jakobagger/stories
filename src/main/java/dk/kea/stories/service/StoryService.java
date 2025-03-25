@@ -18,20 +18,24 @@ public class StoryService {
         this.storyRepository = storyRepository;
     }
 
-    public List<Story> getStories() {
-        return storyRepository.findAll();
+    public List<StoryResponse> getStories() {
+        return storyRepository.findAll()
+                .stream()
+                .map(StoryResponse::from)
+                .toList();
     }
+
 
     public StoryResponse getStoryById(int id) {
         Story story = storyRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Story not found"));
-        return StoryResponse.from(story, true);
+        return StoryResponse.from(story);
     }
 
     public StoryResponse addStory(StoryRequest body) {
         Story newStory = new Story(body);
         storyRepository.save(newStory);
-        return StoryResponse.from(newStory, false);
+        return StoryResponse.from(newStory);
     }
 
     public ResponseEntity<String> deleteById(int id) {
@@ -48,6 +52,6 @@ public class StoryService {
         story.setTitle(body.getTitle());
         story.setDescription(body.getDescription());
         storyRepository.save(story);
-        return StoryResponse.from(story, true);
+        return StoryResponse.from(story);
     }
 }
