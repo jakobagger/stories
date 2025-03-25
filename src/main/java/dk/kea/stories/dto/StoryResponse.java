@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import dk.kea.stories.model.Node;
 import dk.kea.stories.model.Story;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record StoryResponse(

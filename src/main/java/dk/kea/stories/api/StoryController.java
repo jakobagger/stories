@@ -2,7 +2,6 @@ package dk.kea.stories.api;
 
 import dk.kea.stories.dto.StoryRequest;
 import dk.kea.stories.dto.StoryResponse;
-import dk.kea.stories.model.Story;
 import dk.kea.stories.service.StoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
