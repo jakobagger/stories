@@ -2,6 +2,7 @@ package dk.kea.stories.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import dk.kea.stories.dto.ChoiceRequest;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,4 +35,13 @@ public class Choice extends DateTimeInfo{
     @JoinColumn(name = "from_node_id", nullable = false)
     @JsonBackReference("node-choices")
     private Node fromNode;
+
+    public static Choice from(ChoiceRequest choiceRequest, Node fromNode, Node toNode) {
+        Choice choice = new Choice();
+        choice.text = choiceRequest.getText();
+        choice.fromNode = fromNode;
+        choice.fromNode.addOutgoingChoice(choice);
+        choice.toNode = toNode;
+        return choice;
+    }
 }
