@@ -59,6 +59,7 @@ public class Node extends DateTimeInfo{
         newNode.title = nodeRequest.getTitle();
         newNode.text = nodeRequest.getText();
         newNode.story = story;
+        newNode.story.addNode(newNode);
         return newNode;
     }
 }
