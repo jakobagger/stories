@@ -18,7 +18,7 @@ public class DevData implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args){
 
         Story story = new Story();
         story.setTitle("Simple Tree Adventure");
