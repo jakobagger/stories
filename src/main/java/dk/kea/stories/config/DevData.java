@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DevData implements ApplicationRunner {
 
-    private StoryRepository storyRepository;
+    private final StoryRepository storyRepository;
 
     public DevData(StoryRepository storyRepository) {
         this.storyRepository = storyRepository;
@@ -19,44 +19,42 @@ public class DevData implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        // Create a story
+
         Story story = new Story();
         story.setTitle("Simple Tree Adventure");
+        story.setDescription("This is a simple tree adventure.");
 
-// Create nodes
         Node rootNode = new Node();
-        rootNode.setStory(story);
+        rootNode.setTitle("Forest");
         rootNode.setText("You wake up in a forest.");
+        rootNode.setStory(story);
         story.addNode(rootNode);
 
         Node pathNode = new Node();
-        pathNode.setStory(story);
+        pathNode.setTitle("Path");
         pathNode.setText("You find a path leading east.");
+        pathNode.setStory(story);
         story.addNode(pathNode);
 
         Node treasureNode = new Node();
-        treasureNode.setStory(story);
+        treasureNode.setTitle("Treasure");
         treasureNode.setText("You discover a hidden treasure!");
+        treasureNode.setStory(story);
         story.addNode(treasureNode);
 
-// Create choices
         Choice choice1 = new Choice();
+        choice1.setText("Follow the path.");
         choice1.setFromNode(rootNode);
         choice1.setToNode(pathNode);
-        choice1.setText("Follow the path.");
 
         Choice choice2 = new Choice();
+        choice2.setText("Search for treasure.");
         choice2.setFromNode(pathNode);
         choice2.setToNode(treasureNode);
-        choice2.setText("Search for treasure.");
 
-// Add relationships
         rootNode.addOutgoingChoice(choice1);
-        pathNode.setIncomingChoice(choice1);
         pathNode.addOutgoingChoice(choice2);
-        treasureNode.setIncomingChoice(choice2);
 
         storyRepository.save(story);
-
     }
 }

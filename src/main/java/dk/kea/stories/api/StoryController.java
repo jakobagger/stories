@@ -1,7 +1,9 @@
 package dk.kea.stories.api;
 
+import dk.kea.stories.dto.NodeResponse;
 import dk.kea.stories.dto.StoryRequest;
 import dk.kea.stories.dto.StoryResponse;
+import dk.kea.stories.service.NodeService;
 import dk.kea.stories.service.StoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +16,11 @@ import java.util.List;
 public class StoryController {
 
     private final StoryService storyService;
+    private final NodeService nodeService;
 
-    public StoryController(StoryService storyService) {
+    public StoryController(StoryService storyService, NodeService nodeService) {
         this.storyService = storyService;
+        this.nodeService = nodeService;
     }
 
     @GetMapping()
@@ -42,6 +46,11 @@ public class StoryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteStory(@PathVariable int id){
         return storyService.deleteById(id);
+    }
+
+    @GetMapping("/{id}/nodes")
+    public List<NodeResponse> getStoryNodes(@PathVariable int id){
+        return nodeService.getStoryNodes(id);
     }
 }
 

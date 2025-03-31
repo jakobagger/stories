@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 public class NodeService {
     private final NodeRepository nodeRepository;
@@ -52,5 +54,15 @@ public class NodeService {
         }
         nodeRepository.deleteById(id);
         return ResponseEntity.ok("{\"message\":\"Node successfully removed from database\"}");
+    }
+
+    public List<NodeResponse> getStoryNodes(int id) {
+        if (!storyRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Story with ${id} not found");
+        }
+        return nodeRepository.findAllByStoryId(id)
+                .stream()
+                .map(node -> NodeResponse.from(node, true))
+                .toList();
     }
 }

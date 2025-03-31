@@ -4,11 +4,10 @@ import dk.kea.stories.model.Node;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public record NodeResponse(
         int id,
-        String name,
+        String title,
         String text,
         List<ChoiceResponse> outgoingChoices
 ) {
@@ -20,7 +19,7 @@ public record NodeResponse(
                 (includeChoices && node.getOutgoingChoices() != null) ?
                         node.getOutgoingChoices().stream()
                                 .map(ChoiceResponse::from)
-                                .collect(Collectors.toList())
+                                .toList()
                         : Collections.emptyList()
         );
     }
