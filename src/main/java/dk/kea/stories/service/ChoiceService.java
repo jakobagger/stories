@@ -53,4 +53,12 @@ public class ChoiceService {
         ChoiceResponse choiceResponse = ChoiceResponse.from(choice);
         return new ResponseEntity<>(choiceResponse, HttpStatus.OK);
     }
+
+    public ResponseEntity<String> deleteById(int id) {
+        if (!choiceRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Choice not found, can not delete choice");
+        }
+        choiceRepository.deleteById(id);
+        return new ResponseEntity<>("Choice deleted", HttpStatus.OK);
+    }
 }

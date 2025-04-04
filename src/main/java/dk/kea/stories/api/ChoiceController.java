@@ -30,4 +30,9 @@ public class ChoiceController {
     public ResponseEntity<ChoiceResponse> updateChoice(@PathVariable int id, @RequestBody ChoiceRequest body) {
         return choiceService.updateChoice(body, id);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteChoice(@PathVariable int id) {
+        return choiceService.deleteById(id);
+    }
 }
