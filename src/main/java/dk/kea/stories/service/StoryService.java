@@ -34,8 +34,8 @@ public class StoryService {
 
     public StoryResponse addStory(StoryRequest body) {
         Story newStory = new Story(body);
-        storyRepository.save(newStory);
-        return StoryResponse.from(newStory);
+        Story savedStory = storyRepository.save(newStory);
+        return StoryResponse.from(savedStory);
     }
 
     public ResponseEntity<String> deleteById(int id) {

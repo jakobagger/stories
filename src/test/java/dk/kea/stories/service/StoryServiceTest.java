@@ -1,5 +1,6 @@
 package dk.kea.stories.service;
 
+import dk.kea.stories.dto.StoryRequest;
 import dk.kea.stories.dto.StoryResponse;
 import dk.kea.stories.model.Story;
 import dk.kea.stories.repository.StoryRepository;
@@ -17,6 +18,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,14 +46,14 @@ class StoryServiceTest {
         when(storyRepository.findAll()).thenReturn(List.of(storyOne, storyTwo));
 
         List<StoryResponse> stories = storyService.getStories();
-        Assertions.assertEquals(2, stories.size());
+        assertEquals(2, stories.size());
     }
 
     @Test
     void shouldReturnStoryWhenIdExists() {
         when(storyRepository.findById(1)).thenReturn(Optional.of(storyOne));
         StoryResponse storyResponse = storyService.getStoryById(1);
-        Assertions.assertEquals("Title One", storyResponse.title());
+        assertEquals("Title One", storyResponse.title());
     }
 
     @Test
@@ -61,11 +64,20 @@ class StoryServiceTest {
             storyService.getStoryById(3);
         });
 
-        Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
     @Test
     void shouldSaveNewStoryCorrectly() {
+        StoryRequest storyRequest = StoryRequest.builder().title("Title Three").description("Description Three").build();
+        Story newStory = new Story(storyRequest);
+        newStory.setCreated(LocalDateTime.now());
+        newStory.setId(3);
+        when(storyRepository.save(any(Story.class))).thenReturn(newStory);
+
+        StoryResponse storyResponse = storyService.addStory(storyRequest);
+        assertEquals(3, storyResponse.id());
+        assertEquals("Title Three", storyResponse.title());
     }
 
     @Test
