@@ -3,6 +3,8 @@ package dk.kea.stories.api;
 import dk.kea.stories.dto.ChoiceRequest;
 import dk.kea.stories.dto.ChoiceResponse;
 import dk.kea.stories.service.ChoiceService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class ChoiceController {
     private final ChoiceService choiceService;
+    Logger logger = LoggerFactory.getLogger(ChoiceController.class);
 
     public ChoiceController(ChoiceService choiceService) {
         this.choiceService = choiceService;
@@ -18,6 +21,7 @@ public class ChoiceController {
 
     @PostMapping
     public ResponseEntity<ChoiceResponse> addChoice(@RequestBody ChoiceRequest body) {
+        logger.info("addChoice called");
         return choiceService.addChoice(body);
     }
 
