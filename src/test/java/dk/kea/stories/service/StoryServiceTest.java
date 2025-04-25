@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -147,6 +148,12 @@ class StoryServiceTest {
 
     @Test
     void shouldDeleteStoryWhenIdExists() {
+        int existingId = 1;
+        when(storyRepository.existsById(existingId)).thenReturn(true);
+
+        ResponseEntity<String> response = storyService.deleteById(existingId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
