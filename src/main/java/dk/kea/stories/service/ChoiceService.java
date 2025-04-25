@@ -6,25 +6,55 @@ import dk.kea.stories.model.Choice;
 import dk.kea.stories.model.Node;
 import dk.kea.stories.repository.ChoiceRepository;
 import dk.kea.stories.repository.NodeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+/**
+ * ChoiceService handles business logic related to Choice objects
+ *
+ * @author Jakob Agger
+ *
+ */
+
 @Service
 public class ChoiceService {
+    /**
+     * The ChoiceRepository used by this service
+     */
     private final ChoiceRepository choiceRepository;
     private final NodeRepository nodeRepository;
+    Logger logger = LoggerFactory.getLogger(ChoiceService.class);
 
+    /**
+     * <p>ChoiceService Constructor
+     * </p>
+     * @param choiceRepository used to represent the choices of a user
+     * @param nodeRepository used to represent the nodes of a story
+     *
+     * @since 1.0
+     */
     public ChoiceService(ChoiceRepository choiceRepository, NodeRepository nodeRepository) {
         this.choiceRepository = choiceRepository;
         this.nodeRepository = nodeRepository;
     }
 
 
+    /**
+     * @param id, the id  of the choice
+     * @return ChoiceResponse
+     * @since 1.0
+     */
     public ChoiceResponse getChoiceById(int id) {
-        Choice choice = choiceRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Choice not found"));
+        Choice choice = choiceRepository.findById(id).orElse(null);
+                if (choice == null){
+                    ResponseStatusException responseStatusException = new ResponseStatusException(HttpStatus.NOT_FOUND);
+                    logger.error(responseStatusException.getMessage(), responseStatusException);
+                    throw responseStatusException;
+                }
         return ChoiceResponse.from(choice);
     }
 

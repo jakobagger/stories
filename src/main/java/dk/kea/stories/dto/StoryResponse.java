@@ -18,7 +18,7 @@ public record StoryResponse(
     public static StoryResponse from(Story story) {
         List<Node> nodes = story.getNodes();
 
-        if (nodes.isEmpty()) {
+        if (nodes == null || nodes.isEmpty()) {
             return new StoryResponse(
                     story.getId(),
                     story.getTitle(),
