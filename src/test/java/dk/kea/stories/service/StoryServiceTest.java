@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -158,9 +159,21 @@ class StoryServiceTest {
 
     @Test
     void shouldThrowNotFoundWhenDeletingNonExistingStory() {
+        int nonExistingId = -999;
+        when(storyRepository.existsById(nonExistingId)).thenReturn(false);
+
+        ResponseStatusException exception = Assertions.assertThrows(ResponseStatusException.class, () ->
+                storyService.deleteById(nonExistingId));
+
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
     @Test
     void shouldReturnEmptyListWhenNoStoriesExist() {
+        when(storyRepository.findAll()).thenReturn(Collections.emptyList());
+
+        List<StoryResponse> emptyList = storyService.getStories();
+
+        assertEquals(0, emptyList.size());
     }
 }
