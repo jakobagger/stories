@@ -42,8 +42,8 @@ public class NodeService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Node not found"));
         node.setTitle(body.getTitle());
         node.setText(body.getText());
-        nodeRepository.save(node);
-        return NodeResponse.from(node, true);
+        Node savedNode = nodeRepository.save(node);
+        return NodeResponse.from(savedNode, true);
     }
 
     public ResponseEntity<String> deleteById(int id) {

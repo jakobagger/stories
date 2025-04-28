@@ -111,7 +111,28 @@ class NodeServiceTest {
     }
 
     @Test
-    void shouldUpdateNodeFieldsWhenEditingExistingNode() {}
+    void shouldUpdateNodeFieldsWhenEditingExistingNode() {
+        when(nodeRepository.findById(2)).thenReturn(Optional.of(nodeTwo));
+        NodeRequest request = NodeRequest.builder()
+                .storyId(1)
+                .title("Edited Title")
+                .text("Edited Text")
+                .build();
+
+        Node editedNode = Node.builder()
+                .id(nodeTwo.getId())
+                .story(storyOne)
+                .title(request.getTitle())
+                .text(request.getText())
+                .build();
+        when(nodeRepository.save(any(Node.class))).thenReturn(editedNode);
+
+        NodeResponse response = nodeService.editNode(request, 2);
+
+        Assertions.assertEquals(editedNode.getId(), response.id());
+        Assertions.assertEquals(editedNode.getTitle(), response.title());
+        Assertions.assertEquals(editedNode.getText(), response.text());
+    }
 
     @Test
     void shouldThrowNotFoundWhenEditingNonExistingNode() {}
