@@ -99,7 +99,16 @@ class NodeServiceTest {
     }
 
     @Test
-    void shouldThrowNotFoundWhenNodeIdDoesNotExist() {}
+    void shouldThrowNotFoundWhenNodeIdDoesNotExist() {
+        int nonExistingId = -999;
+        when(nodeRepository.findById(nonExistingId)).thenReturn(Optional.empty());
+
+        ResponseStatusException exception = Assertions.assertThrows(
+                ResponseStatusException.class, () -> nodeService.getNodeById(nonExistingId));
+
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+
+    }
 
     @Test
     void shouldUpdateNodeFieldsWhenEditingExistingNode() {}
