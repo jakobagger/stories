@@ -92,7 +92,11 @@ class NodeServiceTest {
     }
 
     @Test
-    void shouldReturnNodeWhenIdExists() {}
+    void shouldReturnNodeWhenIdExists() {
+        when(nodeRepository.findById(1)).thenReturn(Optional.of(nodeOne));
+        NodeResponse response = nodeService.getNodeById(1);
+        Assertions.assertEquals(nodeOne.getId(), response.id());
+    }
 
     @Test
     void shouldThrowNotFoundWhenNodeIdDoesNotExist() {}
