@@ -13,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -72,7 +74,22 @@ class NodeServiceTest {
     }
 
     @Test
-    void shouldThrowNotFoundWhenAddingNodeToNonExistingStory() {}
+    void shouldThrowNotFoundWhenAddingNodeToNonExistingStory() {
+        int nonExistingStoryId = -999;
+        when(storyRepository.findById(nonExistingStoryId)).thenReturn(Optional.empty());
+
+        NodeRequest nodeRequest = NodeRequest.builder()
+                .storyId(nonExistingStoryId)
+                .title("Test Title")
+                .text("Node Text")
+                .build();
+
+        ResponseStatusException exception = Assertions.assertThrows(ResponseStatusException.class, () ->
+                nodeService.addNode(nodeRequest));
+
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+
+    }
 
     @Test
     void shouldReturnNodeWhenIdExists() {}
