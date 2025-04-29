@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -170,10 +171,22 @@ class NodeServiceTest {
 
     @Test
     void shouldReturnAllNodesForExistingStory() {
+        int storyId = 1;
+        when(storyRepository.existsById(storyId)).thenReturn(true);
+        when(nodeRepository.findAllByStoryId(storyId)).thenReturn(List.of(nodeOne, nodeTwo));
+        List<NodeResponse> responses = nodeService.getStoryNodes(storyId);
+        Assertions.assertEquals(2, responses.size());
     }
 
     @Test
     void shouldThrowNotFoundWhenGettingNodesForNonExistingStory() {
+        int nonExistingStoryId = -999;
+        when(storyRepository.existsById(nonExistingStoryId)).thenReturn(false);
+        ResponseStatusException exception = Assertions.assertThrows(
+                ResponseStatusException.class, () -> nodeService.getStoryNodes(nonExistingStoryId)
+        );
+
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
 }
