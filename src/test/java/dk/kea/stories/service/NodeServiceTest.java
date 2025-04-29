@@ -160,6 +160,12 @@ class NodeServiceTest {
 
     @Test
     void shouldThrowNotFoundWhenDeletingNonExistingNode() {
+        int nonExistingId = -999;
+        when(nodeRepository.existsById(nonExistingId)).thenReturn(false);
+        ResponseStatusException exception = Assertions.assertThrows(
+                ResponseStatusException.class, () -> nodeService.deleteById(nonExistingId)
+        );
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
     @Test
