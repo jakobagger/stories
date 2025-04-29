@@ -135,18 +135,34 @@ class NodeServiceTest {
     }
 
     @Test
-    void shouldThrowNotFoundWhenEditingNonExistingNode() {}
+    void shouldThrowNotFoundWhenEditingNonExistingNode() {
+        int nonExistingId = -999;
+        NodeRequest request = NodeRequest.builder()
+                .title("Edited Title")
+                .text("Edited Text")
+                .build();
+
+        when(nodeRepository.findById(nonExistingId)).thenReturn(Optional.empty());
+        ResponseStatusException exception = Assertions.assertThrows(
+                ResponseStatusException.class, () -> nodeService.editNode(request, nonExistingId)
+        );
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+    }
 
     @Test
-    void shouldDeleteNodeWhenIdExists() {}
+    void shouldDeleteNodeWhenIdExists() {
+    }
 
     @Test
-    void shouldThrowNotFoundWhenDeletingNonExistingNode() {}
+    void shouldThrowNotFoundWhenDeletingNonExistingNode() {
+    }
 
     @Test
-    void shouldReturnAllNodesForExistingStory() {}
+    void shouldReturnAllNodesForExistingStory() {
+    }
 
     @Test
-    void shouldThrowNotFoundWhenGettingNodesForNonExistingStory() {}
+    void shouldThrowNotFoundWhenGettingNodesForNonExistingStory() {
+    }
 
 }
