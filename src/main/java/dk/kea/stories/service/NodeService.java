@@ -22,15 +22,13 @@ public class NodeService {
         this.storyRepository = storyRepository;
     }
 
-    public ResponseEntity<NodeResponse> addNode(NodeRequest body) {
+    public NodeResponse addNode(NodeRequest body) {
         Story story = storyRepository.findById(body.getStoryId())
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"No story with this id found, can not add node"));
         Node newNode =  Node.from(body, story);
-        nodeRepository.save(newNode);
-        NodeResponse nodeResponse = NodeResponse.from(newNode, true);
-        return new ResponseEntity<>(nodeResponse, HttpStatus.CREATED);
-
+        newNode = nodeRepository.save(newNode);
+        return NodeResponse.from(newNode, true);
     }
 
     public NodeResponse getNodeById(int id) {
@@ -44,8 +42,8 @@ public class NodeService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Node not found"));
         node.setTitle(body.getTitle());
         node.setText(body.getText());
-        nodeRepository.save(node);
-        return NodeResponse.from(node, true);
+        Node savedNode = nodeRepository.save(node);
+        return NodeResponse.from(savedNode, true);
     }
 
     public ResponseEntity<String> deleteById(int id) {
