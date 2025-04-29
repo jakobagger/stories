@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -151,6 +152,10 @@ class NodeServiceTest {
 
     @Test
     void shouldDeleteNodeWhenIdExists() {
+        int existingId = 1;
+        when(nodeRepository.existsById(existingId)).thenReturn(true);
+        ResponseEntity<String> response = nodeService.deleteById(existingId);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
