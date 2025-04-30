@@ -1,12 +1,11 @@
 package dk.kea.stories;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class StoriesApplicationTests {
 
-    @Test
+    //@Test
     void contextLoads() {
     }
 

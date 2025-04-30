@@ -64,7 +64,7 @@ public class ChoiceService {
         Node toNode = nodeRepository.findById(body.getToNodeId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"No node with this id found, can not add choice"));
         Choice newChoice = Choice.from(body, fromNode, toNode);
-        choiceRepository.save(newChoice);
+        newChoice = choiceRepository.save(newChoice);
         ChoiceResponse choiceResponse = ChoiceResponse.from(newChoice);
         return new ResponseEntity<>(choiceResponse, HttpStatus.CREATED);
     }
