@@ -61,7 +61,7 @@ public class ChoiceServiceTest {
         int nonExistingId = -999;
         when(choiceRepository.findById(nonExistingId)).thenReturn(Optional.empty());
         ResponseStatusException exception = Assertions.assertThrows(ResponseStatusException.class, () ->
-            choiceService.getChoiceById(nonExistingId)
+                choiceService.getChoiceById(nonExistingId)
         );
         Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
@@ -130,5 +130,32 @@ public class ChoiceServiceTest {
         );
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+    }
+
+    @Test
+    void shouldUpdateChoiceWhenIdAndNodesExist() {
+        int existingChoiceId = 1;
+        int fromNodeId = 1;
+        int toNodeId = 2;
+        ChoiceRequest request = ChoiceRequest.builder()
+                .fromNodeId(fromNodeId)
+                .toNodeId(toNodeId)
+                .text("Updated Text")
+                .build();
+        Choice updatedChoice = Choice.builder()
+                .id(choiceOne.getId())
+                .text("Updated Text")
+                .fromNode(nodeOne)
+                .toNode(nodeTwo)
+                .build();
+
+        when(choiceRepository.findById(existingChoiceId)).thenReturn(Optional.of(choiceOne));
+        when(nodeRepository.findById(fromNodeId)).thenReturn(Optional.of(nodeOne));
+        when(nodeRepository.findById(toNodeId)).thenReturn(Optional.of(nodeTwo));
+        when(choiceRepository.save(any(Choice.class))).thenReturn(updatedChoice);
+
+        ChoiceResponse response = choiceService.updateChoice(request, existingChoiceId);
+
+        Assertions.assertEquals(updatedChoice.getId(), response.id());
     }
 }
