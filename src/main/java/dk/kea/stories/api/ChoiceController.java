@@ -20,7 +20,7 @@ public class ChoiceController {
     }
 
     @PostMapping
-    public ResponseEntity<ChoiceResponse> addChoice(@RequestBody ChoiceRequest body) {
+    public ChoiceResponse addChoice(@RequestBody ChoiceRequest body) {
         logger.info("addChoice called");
         return choiceService.addChoice(body);
     }
@@ -31,7 +31,7 @@ public class ChoiceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ChoiceResponse> updateChoice(@PathVariable int id, @RequestBody ChoiceRequest body) {
+    public ChoiceResponse updateChoice(@PathVariable int id, @RequestBody ChoiceRequest body) {
         return choiceService.updateChoice(body, id);
     }
 }
