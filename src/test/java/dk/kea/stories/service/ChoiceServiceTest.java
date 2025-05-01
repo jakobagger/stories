@@ -60,9 +60,9 @@ public class ChoiceServiceTest {
     void shouldThrowExceptionWhenIdDoesNotExist() {
         int nonExistingId = -999;
         when(choiceRepository.findById(nonExistingId)).thenReturn(Optional.empty());
-        ResponseStatusException exception = Assertions.assertThrows(ResponseStatusException.class, () -> {
-            choiceService.getChoiceById(nonExistingId);
-        });
+        ResponseStatusException exception = Assertions.assertThrows(ResponseStatusException.class, () ->
+            choiceService.getChoiceById(nonExistingId)
+        );
         Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
