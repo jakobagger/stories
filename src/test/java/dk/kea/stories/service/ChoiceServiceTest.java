@@ -158,4 +158,21 @@ public class ChoiceServiceTest {
 
         Assertions.assertEquals(updatedChoice.getId(), response.id());
     }
+
+    @Test
+    void shouldThrowNotFoundWhenChoiceDoesNotExistOnUpdate() {
+        int nonExistingChoiceId = -999;
+        int fromNodeId = 1;
+        int toNodeId = 2;
+        ChoiceRequest request = ChoiceRequest.builder()
+                .fromNodeId(fromNodeId)
+                .toNodeId(toNodeId)
+                .text("Updated Text")
+                .build();
+        when(choiceRepository.findById(nonExistingChoiceId)).thenReturn(Optional.empty());
+
+        ResponseStatusException exception = Assertions.assertThrows(ResponseStatusException.class, () ->
+                choiceService.updateChoice(request, nonExistingChoiceId));
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+    }
 }
