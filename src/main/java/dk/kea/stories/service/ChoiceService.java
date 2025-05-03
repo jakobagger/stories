@@ -9,7 +9,6 @@ import dk.kea.stories.repository.NodeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -58,18 +57,17 @@ public class ChoiceService {
         return ChoiceResponse.from(choice);
     }
 
-    public ResponseEntity<ChoiceResponse> addChoice(ChoiceRequest body) {
+    public ChoiceResponse addChoice(ChoiceRequest body) {
         Node fromNode = nodeRepository.findById(body.getFromNodeId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"No node with this id found, can not add choice"));
         Node toNode = nodeRepository.findById(body.getToNodeId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"No node with this id found, can not add choice"));
         Choice newChoice = Choice.from(body, fromNode, toNode);
-        choiceRepository.save(newChoice);
-        ChoiceResponse choiceResponse = ChoiceResponse.from(newChoice);
-        return new ResponseEntity<>(choiceResponse, HttpStatus.CREATED);
+        newChoice = choiceRepository.save(newChoice);
+        return ChoiceResponse.from(newChoice);
     }
 
-    public ResponseEntity<ChoiceResponse> updateChoice(ChoiceRequest body, int id) {
+    public ChoiceResponse updateChoice(ChoiceRequest body, int id) {
         Choice choice = choiceRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Choice not found, can not update choice"));
         Node fromNode = nodeRepository.findById(body.getFromNodeId())
@@ -79,8 +77,7 @@ public class ChoiceService {
         choice.setText(body.getText());
         choice.setFromNode(fromNode);
         choice.setToNode(toNode);
-        choiceRepository.save(choice);
-        ChoiceResponse choiceResponse = ChoiceResponse.from(choice);
-        return new ResponseEntity<>(choiceResponse, HttpStatus.OK);
+        Choice savedChoice = choiceRepository.save(choice);
+        return ChoiceResponse.from(savedChoice);
     }
 }

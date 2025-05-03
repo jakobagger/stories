@@ -35,6 +35,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito:mockito-core:5.15.2")
+    testImplementation("org.junit.platform:junit-platform-suite:1.13.0-M2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -45,4 +46,14 @@ tasks.withType<Test> {
 tasks.register<Javadoc>("generateDocs") {
     source = sourceSets["main"].allJava
     classpath = sourceSets["main"].compileClasspath
+}
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+
+    maxHeapSize = "1G"
+
+    testLogging {
+        events("passed")
+    }
 }
