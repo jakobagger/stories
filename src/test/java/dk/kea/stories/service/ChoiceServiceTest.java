@@ -96,7 +96,7 @@ public class ChoiceServiceTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenFromNodeDoesNotExist() {
+    void shouldThrowExceptionWhenFromNodeDoesNotExistOnAdd() {
         int nonExistingFromNodeId = -999;
         int toNodeId = 2;
         ChoiceRequest request = ChoiceRequest.builder()
@@ -114,7 +114,7 @@ public class ChoiceServiceTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenToNodeDoesNotExist() {
+    void shouldThrowExceptionWhenToNodeDoesNotExistOnAdd() {
         int fromNodeId = 1;
         int nonExistingToNodeId = -999;
         ChoiceRequest request = ChoiceRequest.builder()
@@ -173,6 +173,25 @@ public class ChoiceServiceTest {
 
         ResponseStatusException exception = Assertions.assertThrows(ResponseStatusException.class, () ->
                 choiceService.updateChoice(request, nonExistingChoiceId));
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+    }
+
+    @Test
+    void shouldThrowNotFoundWhenFromNodeDoesNotExistOnUpdate() {
+        int choiceId = 1;
+        int fromNodeId = -999;
+        int toNodeId = 2;
+        ChoiceRequest request = ChoiceRequest.builder()
+                .fromNodeId(fromNodeId)
+                .toNodeId(toNodeId)
+                .text("Updated Text")
+                .build();
+        when(choiceRepository.findById(choiceId)).thenReturn(Optional.of(choiceOne));
+        when(nodeRepository.findById(fromNodeId)).thenReturn(Optional.empty());
+
+        ResponseStatusException exception = Assertions.assertThrows(ResponseStatusException.class, () ->
+                choiceService.updateChoice(request, choiceId));
+
         Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 }
