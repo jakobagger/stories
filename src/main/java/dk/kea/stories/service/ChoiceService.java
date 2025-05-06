@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 /**
  * ChoiceService handles business logic related to Choice objects
  *
@@ -79,5 +81,12 @@ public class ChoiceService {
         choice.setToNode(toNode);
         Choice savedChoice = choiceRepository.save(choice);
         return ChoiceResponse.from(savedChoice);
+    }
+
+    public List<ChoiceResponse> getNodeChoices(int id) {
+        List<Choice> choices = choiceRepository.findAllByFromNodeId(id);
+        return choices.stream()
+                .map(ChoiceResponse::from)
+                .toList();
     }
 }
