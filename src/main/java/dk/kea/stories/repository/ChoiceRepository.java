@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface ChoiceRepository extends JpaRepository<Choice, Integer> {
 
-    public List<Choice> findAllByFromNodeId(int id);
+    List<Choice> findAllByFromNodeId(int id);
 }
