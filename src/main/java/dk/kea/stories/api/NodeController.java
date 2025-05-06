@@ -1,19 +1,25 @@
 package dk.kea.stories.api;
 
+import dk.kea.stories.dto.ChoiceResponse;
 import dk.kea.stories.dto.NodeRequest;
 import dk.kea.stories.dto.NodeResponse;
+import dk.kea.stories.service.ChoiceService;
 import dk.kea.stories.service.NodeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/node")
 @CrossOrigin
 public class NodeController {
     private final NodeService nodeService;
+    private final ChoiceService choiceService;
 
-    public NodeController(NodeService nodeService) {
+    public NodeController(NodeService nodeService, ChoiceService choiceService) {
         this.nodeService = nodeService;
+        this.choiceService = choiceService;
     }
 
     @GetMapping("/{id}")
@@ -37,4 +43,8 @@ public class NodeController {
         return nodeService.deleteById(id);
     }
 
+    @GetMapping("{id}/choices")
+    public List<ChoiceResponse> getNodeChoices(@PathVariable int id) {
+        return choiceService.getNodeChoices(id);
+    }
 }

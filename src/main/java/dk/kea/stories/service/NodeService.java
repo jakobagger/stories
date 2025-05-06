@@ -56,7 +56,7 @@ public class NodeService {
 
     public List<NodeResponse> getStoryNodes(int id) {
         if (!storyRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Story with ${id} not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Story with id "+id+" not found");
         }
         return nodeRepository.findAllByStoryId(id)
                 .stream()
