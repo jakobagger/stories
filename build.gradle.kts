@@ -29,6 +29,7 @@ dependencies {
     implementation("org.apache.maven.plugins:maven-javadoc-plugin:3.11.2")
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.13.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
