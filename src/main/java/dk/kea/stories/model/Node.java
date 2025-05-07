@@ -23,6 +23,8 @@ public class Node extends DateTimeInfo{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String text;
 
     @ManyToOne
