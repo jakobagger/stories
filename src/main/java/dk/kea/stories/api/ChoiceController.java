@@ -5,6 +5,8 @@ import dk.kea.stories.dto.ChoiceResponse;
 import dk.kea.stories.service.ChoiceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,8 +27,10 @@ public class ChoiceController {
     }
 
     @GetMapping("/{id}")
-    public ChoiceResponse getChoiceById(@PathVariable int id) {
-        return choiceService.getChoiceById(id);
+    public ResponseEntity<ChoiceResponse> getChoiceById(@PathVariable int id) {
+        ChoiceResponse choice = choiceService.getChoiceById(id);
+        if (choice == null){return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
+        return new ResponseEntity<>(choice, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

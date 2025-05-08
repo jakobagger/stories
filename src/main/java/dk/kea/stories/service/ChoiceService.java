@@ -52,9 +52,10 @@ public class ChoiceService {
     public ChoiceResponse getChoiceById(int id) {
         Choice choice = choiceRepository.findById(id).orElse(null);
                 if (choice == null){
-                    ResponseStatusException responseStatusException = new ResponseStatusException(HttpStatus.NOT_FOUND);
-                    logger.error(responseStatusException.getMessage(), responseStatusException);
-                    throw responseStatusException;
+                    //ResponseStatusException responseStatusException = new ResponseStatusException(HttpStatus.NOT_FOUND);
+                    logger.info("The requested id does not exist in table 'choice' for id " + id);
+                    //throw responseStatusException;
+                    return null;
                 }
         return ChoiceResponse.from(choice);
     }
