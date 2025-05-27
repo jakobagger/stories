@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/node")
-@CrossOrigin
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class NodeController {
     private final NodeService nodeService;
     private final ChoiceService choiceService;

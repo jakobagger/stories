@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/story")
-@CrossOrigin
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class StoryController {
 
     private final StoryService storyService;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/choice")
-@CrossOrigin
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class ChoiceController {
     private final ChoiceService choiceService;
     Logger logger = LoggerFactory.getLogger(ChoiceController.class);
