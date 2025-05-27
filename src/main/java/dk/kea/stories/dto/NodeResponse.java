@@ -9,7 +9,8 @@ public record NodeResponse(
         int id,
         String title,
         String text,
-        List<ChoiceResponse> outgoingChoices
+        List<ChoiceResponse> outgoingChoices,
+        boolean hasIncomingChoice
 ) {
     public static NodeResponse from(Node node, boolean includeChoices) {
         return new NodeResponse(
@@ -20,7 +21,8 @@ public record NodeResponse(
                         node.getOutgoingChoices().stream()
                                 .map(ChoiceResponse::from)
                                 .toList()
-                        : Collections.emptyList()
+                        : Collections.emptyList(),
+                node.getIncomingChoice() != null
         );
     }
 
